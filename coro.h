@@ -303,10 +303,16 @@ void coro_stack_free (struct coro_stack *stack);
     && !defined CORO_PTHREAD && !defined CORO_FIBER
 # if defined WINDOWS && (defined __i386 || (defined __x86_64 || defined _M_IX86 || defined _M_AMD64))
 #  define CORO_ASM 1
+#  define CORO_INLINE_ASM(...) asm (__VA_ARGS__)
 # elif defined WINDOWS || defined _WIN32
 #  define CORO_LOSER 1 /* you don't win with windoze */
 # elif __linux && (__i386 || (__x86_64 && !__ILP32))
 #  define CORO_ASM 1
+#  if defined (__GNUC__) && __STDC_VERSION__ >= 199901L
+#   define CORO_INLINE_ASM(...) __asm (__VA_ARGS__)
+#  else
+#   define CORO_INLINE_ASM(...) asm (__VA_ARGS__)
+#  endif
 # elif defined HAVE_UCONTEXT_H
 #  define CORO_UCONTEXT 1
 # elif defined HAVE_SETJMP_H && defined HAVE_SIGALTSTACK

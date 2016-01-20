@@ -121,7 +121,7 @@ trampoline (int sig)
     #define CORO_WIN_TIB 1
   #endif
 
-  asm (
+  CORO_INLINE_ASM (
        "\t.text\n"
        #if _WIN32 || __CYGWIN__
        "\t.globl _coro_transfer\n"
