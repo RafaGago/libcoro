@@ -7,3 +7,4 @@ config.h
 _build
 *.build
 Debug
+Makefile
